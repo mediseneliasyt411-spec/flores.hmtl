@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una sorpresa para ti 🌼</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{
+  overflow:hidden;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 20%,#252033 0,#0d0d14 45%,#050509 100%);
+}
+.screen{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:24px;transition:opacity .8s,transform .8s;
+}
+.hidden{opacity:0;pointer-events:none;transform:scale(1.04)}
+.card{
+  width:min(92vw,430px);padding:30px 24px;border-radius:28px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 20px 70px rgba(0,0,0,.45);backdrop-filter:blur(14px);
+  text-align:center;
+}
+h1{font-size:28px;margin:0 0 10px}
+p{color:#cfcbd7;line-height:1.5}
+textarea{
+  width:100%;height:115px;resize:none;border:0;outline:0;border-radius:18px;
+  padding:16px;font-size:16px;background:#111119;color:#fff;
+  box-shadow:inset 0 0 0 1px #ffffff12;
+}
+button{
+  border:0;border-radius:999px;padding:14px 24px;margin-top:16px;
+  font-size:16px;font-weight:700;cursor:pointer;color:#251900;
+  background:linear-gradient(135deg,#ffd84a,#ffae00);
+  box-shadow:0 8px 28px #ffbd0038;
+}
+button:active{transform:scale(.97)}
+
+#surprise{flex-direction:column;text-align:center}
+.message{
+  position:absolute;top:9%;width:min(90vw,600px);font-size:clamp(19px,4.5vw,30px);
+  line-height:1.35;font-weight:600;text-shadow:0 2px 18px #000;
+  opacity:0;transform:translateY(-15px);animation:messageIn 1.5s 1.1s forwards;
+}
+.sub{position:absolute;top:17%;color:#f8d76b;font-size:14px;letter-spacing:2px;text-transform:uppercase;opacity:.8}
+
+.ground{
+  position:absolute;bottom:-15%;width:110%;height:35%;border-radius:50%;
+  background:radial-gradient(ellipse,#171321 0,#08080d 65%,transparent 70%);
+  filter:blur(2px);
+}
+
+.bouquet{
+  position:absolute;bottom:5%;width:min(90vw,430px);height:70vh;
+  animation:bouquetIn 2s cubic-bezier(.17,.84,.25,1) forwards;
+}
+.stems{position:absolute;left:50%;bottom:4%;width:8px;height:47%;transform:translateX(-50%)}
+.stem{
+  position:absolute;bottom:0;left:50%;width:5px;height:100%;border-radius:10px;
+  background:linear-gradient(#648f35,#294d24);transform-origin:bottom;
+}
+.stem:nth-child(1){transform:rotate(-25deg)}
+.stem:nth-child(2){transform:rotate(-13deg)}
+.stem:nth-child(3){transform:rotate(0)}
+.stem:nth-child(4){transform:rotate(13deg)}
+.stem:nth-child(5){transform:rotate(25deg)}
+
+.flower{
+  position:absolute;width:112px;height:112px;left:50%;top:25%;
+  transform:translate(-50%,-50%) scale(0);
+  animation:bloom 1.2s cubic-bezier(.2,.9,.2,1) forwards;
+  filter:drop-shadow(0 8px 15px #ffbd0040);
+}
+.flower:nth-child(2){left:30%;top:34%;animation-delay:.35s;transform:translate(-50%,-50%) rotate(-12deg) scale(0)}
+.flower:nth-child(3){left:70%;top:34%;animation-delay:.55s;transform:translate(-50%,-50%) rotate(12deg) scale(0)}
+.flower:nth-child(4){left:40%;top:18%;animation-delay:.75s;transform:translate(-50%,-50%) rotate(-8deg) scale(0)}
+.flower:nth-child(5){left:60%;top:18%;animation-delay:.9s;transform:translate(-50%,-50%) rotate(8deg) scale(0)}
+
+.petal{
+  position:absolute;left:50%;top:50%;width:35px;height:62px;
+  margin:-31px -17px;border-radius:55% 55% 48% 48%;
+  background:linear-gradient(90deg,#ffb300,#fff06a,#ff9d00);
+  transform-origin:50% 100%;
+}
+.petal:nth-child(1){transform:rotate(0deg) translateY(-27px)}
+.petal:nth-child(2){transform:rotate(45deg) translateY(-27px)}
+.petal:nth-child(3){transform:rotate(90deg) translateY(-27px)}
+.petal:nth-child(4){transform:rotate(135deg) translateY(-27px)}
+.petal:nth-child(5){transform:rotate(180deg) translateY(-27px)}
+.petal:nth-child(6){transform:rotate(225deg) translateY(-27px)}
+.petal:nth-child(7){transform:rotate(270deg) translateY(-27px)}
+.petal:nth-child(8){transform:rotate(315deg) translateY(-27px)}
+.center{
+  position:absolute;left:50%;top:50%;width:29px;height:29px;transform:translate(-50%,-50%);
+  border-radius:50%;background:#5a2500;box-shadow:0 0 0 5px #ffcc22;
+}
+.ribbon{
+  position:absolute;bottom:5%;left:50%;transform:translateX(-50%);
+  width:125px;height:75px;z-index:10;opacity:0;animation:ribbonIn 1s 2s forwards;
+}
+.ribbon:before,.ribbon:after{
+  content:"";position:absolute;top:5px;width:58px;height:55px;background:#e52b45;
+  border-radius:12px 35px 12px 35px;box-shadow:0 3px 12px #0005;
+}
+.ribbon:before{left:0;transform:rotate(25deg)}
+.ribbon:after{right:0;transform:scaleX(-1) rotate(25deg)}
+.knot{position:absolute;z-index:2;left:50%;top:12px;transform:translateX(-50%);
+  width:32px;height:32px;border-radius:50%;background:#ff4b5f}
+.ribbonTail{
+  position:absolute;top:27px;left:50%;width:22px;height:55px;background:#d8213a;
+  transform:translateX(-50%) rotate(8deg);clip-path:polygon(0 0,100% 0,82% 100%,50% 78%,18% 100%);
+}
+.sparkle{
+  position:absolute;width:5px;height:5px;border-radius:50%;background:#fff3a3;
+  box-shadow:0 0 15px 5px #ffe56b;animation:float 2.5s infinite ease-in-out;
+}
+.s1{left:15%;top:35%;animation-delay:.2s}.s2{left:82%;top:45%;animation-delay:.8s}
+.s3{left:22%;top:68%;animation-delay:1.2s}.s4{left:76%;top:70%;animation-delay:1.7s}
+.s5{left:50%;top:30%;animation-delay:2s}
+
+@keyframes bouquetIn{from{opacity:0;transform:translateY(90px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes bloom{to{transform:translate(-50%,-50%) scale(1)}}
+@keyframes messageIn{to{opacity:1;transform:none}}
+@keyframes ribbonIn{to{opacity:1}}
+@keyframes float{0%,100%{opacity:.15;transform:translateY(0) scale(.7)}50%{opacity:1;transform:translateY(-25px) scale(1.4)}}
+@media(max-height:650px){.bouquet{height:66vh}.message{top:5%}.sub{top:13%}}
+</style>
+</head>
+<body>
+
+<section id="start" class="screen">
+  <div class="card">
+    <div style="font-size:45px">💌</div>
+    <h1>Quiero darte una sorpresa</h1>
+    <p>Primero escribe el mensaje que quieres dejarle a esa persona especial.</p>
+    <textarea id="userMessage" maxlength="180" placeholder="Escribe algo bonito..."></textarea>
+    <button onclick="showSurprise()">Continuar ✨</button>
+  </div>
+</section>
+
+<section id="surprise" class="screen hidden">
+  <div class="sub">Tengo una sorpresa para ti</div>
+  <div id="message" class="message"></div>
+
+  <div class="bouquet">
+    <div class="sparkle s1"></div><div class="sparkle s2"></div>
+    <div class="sparkle s3"></div><div class="sparkle s4"></div><div class="sparkle s5"></div>
+
+    <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center"></div></div>
+    <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center"></div></div>
+    <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center"></div></div>
+    <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center"></div></div>
+    <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center"></div></div>
+
+    <div class="stems">
+      <div class="stem"></div><div class="stem"></div><div class="stem"></div><div class="stem"></div><div class="stem"></div>
+    </div>
+    <div class="ribbon"><div class="ribbonTail"></div><div class="knot"></div></div>
+  </div>
+  <div class="ground"></div>
+</section>
+
+<script>
+function showSurprise(){
+  const input=document.getElementById('userMessage');
+  const text=input.value.trim() || 'Solo quería recordarte lo especial que eres. 🌼';
+  document.getElementById('message').textContent=text;
+  document.getElementById('start').classList.add('hidden');
+  setTimeout(()=>document.getElementById('surprise').classList.remove('hidden'),250);
+}
+</script>
+</body>
+</html>
